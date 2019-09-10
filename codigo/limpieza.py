@@ -11,6 +11,7 @@ from funciones import *
 os.getcwd()
 
 datos=pd.read_csv("../input/heart.csv",encoding="ISO-8859-1")
+# print(datos.columns)
 datos.head()
 datos.dtypes
 datos.shape
@@ -22,7 +23,12 @@ datos.columns=["edad","sexo","dolor_pecho","presion_reposo","colesterol","glucem
               "vasos_fluoros","reversibilidad","enf"]
 lista=[e for e in range(303)]
 datos["id"]=lista
-datos.describe()
+datos["enf"].value_counts()
+edad=datos["edad"].describe()
+datos[datos["edad"]==29]
+presion=datos["presion_reposo"].describe()
+colesterol=datos["colesterol"].describe()
+frecue=datos["frec_card_max"].describe()
 datos.columns
 datos.head()
 datos.shape
@@ -90,4 +96,72 @@ farmaco_dato={"0" :'medidas_dieteticas',
                  "3":"a_b_bloqueate",
                  "4":"IECA",
                   "5":"ARA"}
-print(farmaco_dato)
+
+ver=datos[(datos["ecg_reposo"]==1) & (datos["descn_st_tras_ejer"]>=1.0)&
+          (datos["pend_st_en ejer"]==1) | (datos["pend_st_en ejer"]==3)]
+sin=ver["enf"].value_counts()
+
+#Apesar de tener los registros de ecg alterados, la mayoria no presentan "enfermedad", porque esta se considera 
+#en torno a un estrechamiento de >50% del diametro de la arteria coronaria principal.
+sen=ver["dolor_pecho"].value_counts()
+
+
+
+#Sin embargo la mayoria si que presentan sintomas de tipo anginoso.
+
+def farmacos (e):
+    farmaco_dato={0 :'medidas_dieteticas',
+    1 : "diureticos",
+    2:"b_bloqueante",
+    3:"a_b_bloqueate",
+    4:"IECA",
+    5:"ARA"}
+    return farmaco_dato[e]
+
+
+def presion_farmaco(ID): 
+    farmaco_dato={0 :'medidas_dieteticas',
+    1 : "diureticos",
+    2:"b_bloqueante",
+    3:"a_b_bloqueate",
+    4:"IECA",
+    5:"ARA"}
+    id_presion = pd.DataFrame(datos, columns=['id','presion_reposo2','farmacos'])
+    id_presion = id_presion[id_presion['id']==int(ID)]
+    id_presion["farmacos"]=faramaco_dato[]
+    return id_presion
+
+
+# Grafico que evalua el descenso del segmento ST durante una ergonometría (Prueba positiva >1mm). 
+#Se observa como hay mas casos de pruebas positivas en los grupos de presión arterial normal o Grado 1.
+#Ya que con esta prueba se quiere descartar una angina estable, la cual solo se manifiesta al someter a mayor
+#demanda el corazón. Lo que indicaría que con HTA de grados superiores, no sería necesaria por su relación estrecha con 
+#la patologia cardiaca. A lo que de realizarla se ve como ese segmeto desciende en mayor medida, indicando isquemia
+#subendocardica.
+
+""""ya= datos["descn_st_tras_ejer"]
+x= datos["presion_reposo2"]
+
+p= figure(
+   tools="pan,box_zoom,reset,save",
+   y_range=[6.5,0.0],x_range=["óptimo","Normal","ligeramente elevada","HTA Grado 1","HTA Grado 2","HTA Grado 3"],
+   x_axis_label='Grados presion arterial', y_axis_label='descenso segmento ST'
+)
+
+p.circle(x,ya, legend="descn_st_tras_ejer", fill_color="black", size=10)
+
+show(p,new="tab")
+
+# Grafico comparando el colesterol y la presión arterial según la edad.
+y1= datos["colesterol"]
+ya= datos["presion_reposo"]
+x= datos["edad"]
+
+
+p= figure(tools="pan,box_zoom,reset,save",y_range=[100,500], x_range=[25,90],x_axis_label='edad', y_axis_label='concentracion')
+
+p.circle(x,y1, legend="colesterol",fill_color="red", size=10)
+p.circle(x,ya, legend="presion_reposo", fill_color="black", size=10)
+
+
+show(p,new="tab")"""

@@ -6,8 +6,8 @@ Analisis de un subconjuto de 14 atributos sobre enfermedad cardiaca:
 
 2) sexo
 
-3) dolor_pecho: tipo de dolor en el pecho (Valor 1: angina típica//Valor 2: angina atípica//Valor 3: dolor no anginal
-//valor 4: Asintomatico)
+3) dolor_pecho: tipo de dolor en el pecho (Valor 0: angina típica//Valor 1: angina atípica//Valor 2: dolor no anginal
+//valor 3: Asintomatico)
 
 4) presion_reposo: Presión arterial en reposo (mmHg)
 
