@@ -1,4 +1,4 @@
-# project
+# Enfermedad coronaria
 
 Analisis de un subconjuto de 14 atributos sobre enfermedad cardiaca:
 
